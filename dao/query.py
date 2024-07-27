@@ -3,7 +3,7 @@ from tools import tools as t
 
 class Query:
     def __init__(self, content):
-        self.__dict = {}
+        self.__dict = dict()
         self.Set("", content)
 
     def Group(self, query, content):
@@ -26,9 +26,6 @@ class Query:
 
     def Contain(self, query):
         return query in self.__dict
-
-    def __str__(self):
-        return str(self.__dict)
 
 
 def QueryInit(content):
