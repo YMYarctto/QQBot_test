@@ -1,0 +1,3 @@
+ID_DRINK = 1
+ID_FOOD = 2
+ID_CUSTOMER = 3
