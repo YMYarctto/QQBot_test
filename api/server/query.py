@@ -15,10 +15,21 @@ def header_init():
 
 
 def body_init():
-    Body.Set("帮助", query.QueryInit("{帮助}"))
-    Body.Set("关于", query.QueryInit("这里是ling_xian_bot，一款东方夜雀食堂信息查询bot，发送[帮助]可查看使用说明\n项目地址：\n"
-                                     "https://github.com/YMYarctto/QQBot_test"))
-    drink = Body.Group("酒水", "输入酒水tag以查询")
-    drink.Set_All(["无酒精", "低酒精", "中酒精", "高酒精", "可加冰", "可加热", "烧酒", "利口酒", "清酒",
-                   "西洋酒", "啤酒", "鸡尾酒", "直饮", "水果", "甘", "辛", "苦", "气泡", "古典", "提神", "现代"],
-                  const.ID_DRINK)
+    _help = \
+        "请求       参数       说明\n" + \
+        "--------------------------------\n" + \
+        " 帮助              查看Bot的所有指令\n" + \
+        " 关于               Bot信息    \n" + \
+        " 查看    [tag]     查看tag信息   \n" + \
+        " 酒水   [酒水tag]   查看tag下的所有酒水 \n" + \
+        "[角色]  [食物tag]   推荐上菜食物    \n"
+
+    _about = "这里是ling_xian_bot，一款东方夜雀食堂信息查询bot，发送[帮助]可查看使用说明\n项目地址：\n" + \
+             "https://github.com/YMYarctto/QQBot_test"
+
+    Body.Set("帮助", query.QueryInit(f'{_help}'))
+    Body.Set("关于", query.QueryInit(f'{_about}'))
+    Body.Set("酒水", const.ID_DRINK)
+    # drink.Set_All(["无酒精", "低酒精", "中酒精", "高酒精", "可加冰", "可加热", "烧酒", "利口酒", "清酒",
+    #                "西洋酒", "啤酒", "鸡尾酒", "直饮", "水果", "甘", "辛", "苦", "气泡", "古典", "提神", "现代"],
+    #               const.ID_DRINK)
