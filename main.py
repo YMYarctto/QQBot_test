@@ -7,6 +7,7 @@ from const import const as cst
 from tools import tools as tools
 from api.server import query as server
 from api.server import drink as server_drink
+from api.server import customer as server_customer
 
 
 def send_message(content):
@@ -28,23 +29,23 @@ def try_image(img_url):
     try:
         box = tuple[int, int, int, int](gui.locateOnScreen(img_url, confidence=0.9))
         gui.click(gui.center(box))
-        time.sleep(0.3)
+        time.sleep(0.2)
         content = try_lingXian()
         if tools.type_name(content, "str"):
-            time.sleep(0.1)
             gui.click(gui.center(box))
             send_message("[ling_xian_bot]\n\n" + content)
         keyboard.press_and_release("esc")
-    except gui.ImageNotFoundException:
+    except Exception:
         return
 
 
 def try_lingXian():
     try:
-        box = tuple[int, int, int, int](gui.locateOnScreen("./image/ling_xian_24.png", confidence=0.9))
-        gui.click(gui.center(box))
+        box = list(gui.locateAllOnScreen("./image/ling_xian_24.png", confidence=0.9))
+        for b in box:
+            gui.click(gui.center(tuple[int, int, int, int](b)))
         return process_body(get_content())
-    except gui.ImageNotFoundException as e:
+    except Exception as e:
         return e
 
 
@@ -76,20 +77,40 @@ def process_body(content):
                 return unknown
             if tools.type_name(unknown, "int"):
                 if unknown == cst.ID_DRINK:
-                    return process_drink(str_list[i:])
+                    return process_drink(str_list[i + 1:])
+                if unknown == cst.ID_CUSTOMER:
+                    return process_customer(str_list[i + 1:])
     return body.Analysis("")
 
 
-def process_drink(str_list):
+def process_customer(str_list):
     print(str_list)
+    customer = server_customer.Customer
+    query = server_customer.CustomerQuery
+    if len(str_list) == 0:
+        while not tools.type_name(query, "str"):
+            query = query.Analysis("")
+        return query
+    for i in range(len(str_list)):
+        if query.Analysis(str_list[i]):
+            return customer.__other_name_str__()
+        try:
+            customer = server_customer.Customer.Search_Customer(str_list[0])
+        except Exception as e:
+            return e.__str__()
+        query = query.Analysis("")
+    return customer.__str__()
+
+
+def process_drink(str_list):
     drink = server_drink.Drink
     for i in range(len(str_list)):
         drink = drink.Search_Drink(str_list[i])
-    print(drink.__str__())
     return drink.__str__()
 
 
 if __name__ == '__main__':
     server.init()
     server_drink.drink_init()
+    server_customer.customer_server_init()
     server_start()
