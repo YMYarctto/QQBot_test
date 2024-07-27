@@ -26,7 +26,6 @@ class DrinkList:
     def Search_Drink(self, tag):
         drink_list = DrinkListInit()
         for drink in self.__drink:
-            print(drink.__str__())
             if drink.tag_Contain(tag):
                 drink_list.Set_Drink(drink.NAME, drink.tag, drink.PRICE)
         return drink_list
