@@ -28,14 +28,16 @@ def try_image(img_url):
     try:
         box = tuple[int, int, int, int](gui.locateOnScreen(img_url, confidence=0.9))
         gui.click(gui.center(box))
+        time.sleep(0.3)
         content = try_lingXian()
         if tools.type_name(content, "str"):
-            time.sleep(0.5)
+            time.sleep(0.1)
             gui.click(gui.center(box))
             send_message("[ling_xian_bot]\n\n" + content)
         keyboard.press_and_release("esc")
     except gui.ImageNotFoundException:
         return
+
 
 def try_lingXian():
     try:
