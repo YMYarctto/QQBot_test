@@ -11,7 +11,7 @@ class DrinkList:
             if self.NAME == "果味SOUR" or self.NAME == "超ZUN啤酒":
                 lj += "—"
             if len(self.PRICE) == 1:
-                rj = f'——{self.PRICE}'
+                rj = f'—{self.PRICE}'
             return f'{lj.ljust(6, "—")}——{rj}円'
 
         def tag_Contain(self, v):
