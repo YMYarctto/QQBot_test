@@ -1,6 +1,6 @@
 class DrinkList:
     class Drink:
-        def __init__(self, name, tag, price):
+        def __init__(self, name: str, tag: list, price: str):
             self.NAME = name
             self.tag = tag
             self.PRICE = price
@@ -14,16 +14,16 @@ class DrinkList:
                 rj = f'—{self.PRICE}'
             return f'{lj.ljust(6, "—")}——{rj}円'
 
-        def tag_Contain(self, v):
+        def tag_Contain(self, v: str) -> bool:
             return v in self.tag
 
     def __init__(self):
         self.__drink = []
 
-    def Set_Drink(self, name, tag, price):
+    def Set_Drink(self, name: str, tag: list, price: str) -> None:
         self.__drink.append(self.Drink(name=name, tag=tag, price=price))
 
-    def Search_Drink(self, tag):
+    def Search_Drink(self, tag: str):  # -> DrinkList
         drink_list = DrinkListInit()
         for drink in self.__drink:
             if drink.tag_Contain(tag):
@@ -39,5 +39,5 @@ class DrinkList:
         return s
 
 
-def DrinkListInit():
+def DrinkListInit() -> DrinkList:
     return DrinkList()
