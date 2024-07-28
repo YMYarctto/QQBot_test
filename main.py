@@ -16,7 +16,7 @@ def send_message(content):
     # 粘贴
     gui.hotkey("ctrl", "v")
     gui.write(["enter"])
-    logs.write(logs.BOT, content)
+    logs.write("BOT", content)
 
 
 def server_start():
@@ -37,7 +37,10 @@ def try_image(img_url):
             gui.click(gui.center(box))
             send_message("[ling_xian_bot]\n\n" + content)
         keyboard.press_and_release("esc")
-    except Exception:
+    except gui.ImageNotFoundException:
+        return
+    except Exception as e:
+        print(e)
         return
 
 
@@ -64,7 +67,7 @@ def get_content():
 
 
 def process_body(content):
-    logs.write(logs.QUERY, content)
+    logs.write("QUERY", content)
     str_list = tools.content_filter(content)
     body = server.Body
     for i in range(len(str_list)):
@@ -86,27 +89,32 @@ def process_body(content):
 
 
 def process_customer(str_list):
-    customer = server_customer.Customer
-    query = server_customer.CustomerQuery
-    if len(str_list) == 0:
-        while not tools.type_name(query, "str"):
+    try:
+        customer = server_customer.Customer
+        query = server_customer.CustomerQuery
+        if len(str_list) == 0:
+            while not tools.type_name(query, "str"):
+                query = query.Analysis("")
+            return query
+        for i in range(len(str_list)):
+            if query.Analysis(str_list[i]):
+                return customer.__other_name_str__()
+            try:
+                customer = server_customer.Customer.Search_Customer(str_list[0])
+            except Exception as e:
+                return e.__str__()
             query = query.Analysis("")
-        return query
-    for i in range(len(str_list)):
-        if query.Analysis(str_list[i]):
-            return customer.__other_name_str__()
-        try:
-            customer = server_customer.Customer.Search_Customer(str_list[0])
-        except Exception as e:
-            return e.__str__()
-        query = query.Analysis("")
-    return customer.__str__()
+        return customer.__str__()
+    except Exception as e:
+        print(e)
+        print(e.__traceback__.tb_frame.f_globals["__file__"])
+        print(e.__traceback__.tb_lineno)
 
 
 def process_drink(str_list):
     drink = server_drink.Drink
-    for i in range(len(str_list)):
-        drink = drink.Search_Drink(str_list[i])
+    for v in str_list:
+        drink = drink.Search_Drink(v)
     return drink.__str__()
 
 
