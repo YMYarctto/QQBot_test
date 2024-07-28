@@ -1,4 +1,6 @@
 from tools import tools as t
+from dao.query import Query
+
 
 # Customer: {
 #     "__other_name": {
@@ -94,27 +96,18 @@ class CustomerList:
         return s
 
 
-class CustomerQuery:
-    def __init__(self, content):
+class CustomerQuery(Query):
+    def __init__(self, content: any) -> None:
+        super().__init__(content)
         self.__dict = dict()
         self.Set("", content)
 
-    def Set(self, query, content):
-        self.__dict[query] = content
-
-    def Group(self, query, content):
-        self.__dict[query] = CustomerQueryInit(content)
-        return self.__dict[query]
-
-    def Analysis(self, query):
+    def Analysis(self, query: str) -> any:
         if not self.Contain(query):
             return False
         elif not t.type_name(self.__dict[query], "str"):
             return self.__dict[query]
         return self.__dict[""]
-
-    def Contain(self, query):
-        return query in self.__dict
 
 
 def CustomerQueryInit(content):
