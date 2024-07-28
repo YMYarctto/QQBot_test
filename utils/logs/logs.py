@@ -1,12 +1,9 @@
 import datetime as date
 
-QUERY = "QUERY"
-BOT = "BOT"
-
 log_file = "./utils/logs/chat.log"
 
 
-def write(char, message):
+def write(char: str, message: str) -> None:
     time = date.datetime.now()
     m = message.replace("\n", " $ ").replace("\r", "")
     s = (f'[{date.date.today()} '
