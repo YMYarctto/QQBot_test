@@ -8,6 +8,7 @@ from tools import tools as tools
 from api.server import query as server
 from api.server import drink as server_drink
 from api.server import customer as server_customer
+from utils.logs import logs as logs
 
 
 def send_message(content):
@@ -15,6 +16,7 @@ def send_message(content):
     # 粘贴
     gui.hotkey("ctrl", "v")
     gui.write(["enter"])
+    logs.write(logs.BOT, content)
 
 
 def server_start():
@@ -62,7 +64,7 @@ def get_content():
 
 
 def process_body(content):
-    print(content)
+    logs.write(logs.QUERY, content)
     str_list = tools.content_filter(content)
     body = server.Body
     for i in range(len(str_list)):
@@ -84,7 +86,6 @@ def process_body(content):
 
 
 def process_customer(str_list):
-    print(str_list)
     customer = server_customer.Customer
     query = server_customer.CustomerQuery
     if len(str_list) == 0:
