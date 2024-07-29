@@ -3,9 +3,10 @@ import datetime as date
 chat_file = "./utils/logs/chat.log"
 error_file = "./utils/logs/error.log"
 
+
 def get_time() -> str:
     time = date.datetime.now()
-    return (f'[{date.date.today()} '
+    return (f'{date.date.today()} '
             f'{time.hour.__str__().rjust(2, "0")}:'
             f'{time.minute.__str__().rjust(2, "0")}:'
             f'{time.second.__str__().rjust(2, "0")}]')
