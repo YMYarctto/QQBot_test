@@ -44,6 +44,12 @@ class CustomerList:
             s_like_drink = "|"
             for v in self.like_drink_tag:
                 s_like_drink += f'{v}|'
+            s_food = ""
+            if len(self.food) >= 3:
+                s_food = (f'☆菜谱：\n'
+                          f' ·Lv1 -> {self.food[0]}\n'
+                          f' ·Lv2 -> {self.food[1]}\n'
+                          f' ·Lv3 -> {self.food[2]}\n')
             return (f'{self.NAME}\n\n'
                     f'☆偏好：\n'
                     f' ·菜肴喜好：{s_like_food}\n'
@@ -51,10 +57,7 @@ class CustomerList:
                     f' ·酒水喜好：{s_like_drink}\n'
                     f'☆持有：{self.MONEY}\n'
                     f'☆出现地区：{self.PLACE}\n'
-                    f'☆菜谱：\n'
-                    f' ·Lv1 -> {self.food[0]}\n'
-                    f' ·Lv2 -> {self.food[1]}\n'
-                    f' ·Lv3 -> {self.food[2]}\n'
+                    f'{s_food}'
                     f'☆符卡：\n'
                     f' ·奖励符卡：{self.S_CARD}\n'
                     f' ·惩罚符卡：{self.F_CARD}')
