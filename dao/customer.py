@@ -97,17 +97,12 @@ class CustomerList:
 
 
 class CustomerQuery(Query):
-    def __init__(self, content: any) -> None:
-        super().__init__(content)
-        self.__dict = dict()
-        self.Set("", content)
-
     def Analysis(self, query: str) -> any:
         if not self.Contain(query):
             return False
-        elif not t.type_name(self.__dict[query], "str"):
-            return self.__dict[query]
-        return self.__dict[""]
+        elif not t.type_name(self.dict[query], "str"):
+            return self.dict[query]
+        return self.dict[""]
 
 
 def CustomerQueryInit(content):
