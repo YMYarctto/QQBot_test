@@ -70,45 +70,43 @@ def process_body(content):
     logs.write("QUERY", content)
     str_list = tools.content_filter(content)
     body = server.Body
-    for i in range(len(str_list)):
-        if i == 0:
-            if not server.Header.Analysis(str_list[0]):
-                return False
-        else:
-            unknown = body.Analysis(str_list[i])
-            if tools.type_name(unknown, "Query"):
-                body = unknown
-            if tools.type_name(unknown, "str"):
-                return unknown
-            if tools.type_name(unknown, "int"):
-                if unknown == cst.ID_DRINK:
-                    return process_drink(str_list[i + 1:])
-                if unknown == cst.ID_CUSTOMER:
-                    return process_customer(str_list[i + 1:])
+    try:
+        for i in range(len(str_list)):
+            if i == 0:
+                if not server.Header.Analysis(str_list[0]):
+                    return False
+            else:
+                unknown = body.Analysis(str_list[i])
+                if tools.type_name(unknown, "Query"):
+                    body = unknown
+                if tools.type_name(unknown, "str"):
+                    return unknown
+                if tools.type_name(unknown, "int"):
+                    if unknown == cst.ID_DRINK:
+                        return process_drink(str_list[i + 1:])
+                    if unknown == cst.ID_CUSTOMER:
+                        return process_customer(str_list[i + 1:])
+    except Exception as e:
+        logs.error(e)
     return body.Analysis("")
 
 
 def process_customer(str_list):
-    try:
-        customer = server_customer.Customer
-        query = server_customer.CustomerQuery
-        if len(str_list) == 0:
-            while not tools.type_name(query, "str"):
-                query = query.Analysis("")
-            return query
-        for i in range(len(str_list)):
-            if query.Analysis(str_list[i]):
-                return customer.__other_name_str__()
-            try:
-                customer = server_customer.Customer.Search_Customer(str_list[0])
-            except Exception as e:
-                return e.__str__()
+    customer = server_customer.Customer
+    query = server_customer.CustomerQuery
+    if len(str_list) == 0:
+        while not tools.type_name(query, "str"):
             query = query.Analysis("")
-        return customer.__str__()
-    except Exception as e:
-        print(e)
-        print(e.__traceback__.tb_frame.f_globals["__file__"])
-        print(e.__traceback__.tb_lineno)
+        return query
+    for i in range(len(str_list)):
+        if query.Analysis(str_list[i]):
+            return customer.__other_name_str__()
+        try:
+            customer = server_customer.Customer.Search_Customer(str_list[0])
+        except Exception as e:
+            return e.__str__()
+        query = query.Analysis("")
+    return customer.__str__()
 
 
 def process_drink(str_list):
