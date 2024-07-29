@@ -78,6 +78,7 @@ class CustomerList:
 
     def Set_Customer(self, name, v):
         self.__customer[name] = self.Customer(v)
+        self.Set_other_name(name)
 
     def Search_Customer(self, name):
         if name in self.__other_name.keys():

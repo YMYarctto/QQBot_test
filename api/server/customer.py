@@ -23,7 +23,6 @@ def customer_init():
         "money": "200~400円",
         "food": ["露水煮蛋", "香炸蝉蜕", "幻昙华糕"],
     })
-    Customer.Set_other_name("莉格露")
 
 
 def customer_server_init():
